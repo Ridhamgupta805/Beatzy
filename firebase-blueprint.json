@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Represents a user in the Beatzy ecosystem.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["listener", "artist", "producer", "admin"] },
+        "bio": { "type": "string" },
+        "followersCount": { "type": "integer" },
+        "followingCount": { "type": "integer" },
+        "verified": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "email", "role"]
+    },
+    "Track": {
+      "title": "Music Track",
+      "description": "A musical track available for streaming.",
+      "type": "object",
+      "properties": {
+        "trackId": { "type": "string" },
+        "title": { "type": "string" },
+        "artistId": { "type": "string" },
+        "artistName": { "type": "string" },
+        "audioUrl": { "type": "string" },
+        "coverArtUrl": { "type": "string" },
+        "duration": { "type": "integer" },
+        "genre": { "type": "string" },
+        "plays": { "type": "integer" },
+        "likes": { "type": "integer" },
+        "isAI": { "type": "boolean" },
+        "prompt": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Beat": {
+      "title": "Marketplace Beat",
+      "description": "A beat available for purchase.",
+      "type": "object",
+      "properties": {
+        "beatId": { "type": "string" },
+        "title": { "type": "string" },
+        "producerId": { "type": "string" },
+        "audioPreviewUrl": { "type": "string" },
+        "price": { "type": "number" },
+        "licenseType": { "type": "string" },
+        "bpm": { "type": "integer" },
+        "key": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Reel": {
+      "title": "Short Video Reel",
+      "description": "A 15-60 second musical clip.",
+      "type": "object",
+      "properties": {
+        "reelId": { "type": "string" },
+        "creatorId": { "type": "string" },
+        "videoUrl": { "type": "string" },
+        "audioId": { "type": "string" },
+        "caption": { "type": "string" },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Public and private user profile data."
+    },
+    "/tracks/{trackId}": {
+      "schema": "Track",
+      "description": "Global catalog of music tracks."
+    },
+    "/beats/{beatId}": {
+      "schema": "Beat",
+      "description": "Beats listed in the marketplace."
+    },
+    "/reels/{reelId}": {
+      "schema": "Reel",
+      "description": "Short form music content."
+    }
+  }
+}

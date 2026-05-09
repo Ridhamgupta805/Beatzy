@@ -1,0 +1,13 @@
+{
+  "name": "Beatzy",
+  "description": "A futuristic AI-powered music platform combining streaming, AI generation, and a creator marketplace.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "AI Music Generation",
+    "Music Streaming",
+    "Creator Marketplace"
+  ]
+}

@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function isValidId(id) { return id is string && id.size() <= 128; }
+    
+    function isValidUser(data) {
+      return data.userId == request.auth.uid &&
+             data.email is string &&
+             data.role in ['listener', 'artist', 'producer'];
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && 
+                    request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName', 'photoURL', 'bio', 'role']);
+    }
+
+    match /tracks/{trackId} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.resource.data.artistId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.artistId == request.auth.uid;
+    }
+    
+    match /beats/{beatId} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.resource.data.producerId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.producerId == request.auth.uid;
+    }
+
+    match /reels/{reelId} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.resource.data.creatorId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.creatorId == request.auth.uid;
+    }
+  }
+}

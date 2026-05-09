@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-brand-primary: #22d3ee;
+  --color-brand-secondary: #9333ea;
+  --color-brand-accent: #7000FF;
+  
+  --background: #050505;
+  --foreground: #FFFFFF;
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] font-sans antialiased selection:bg-brand-primary/30 overflow-hidden;
+  }
+}
+
+.glass {
+  @apply bg-black/40 backdrop-blur-xl border border-white/5;
+}
+
+.neon-border {
+  @apply border border-brand-primary/50 shadow-[0_0_15px_rgba(34,211,238,0.2)];
+}
+
+.neon-text-primary {
+  @apply text-brand-primary drop-shadow-[0_0_8px_rgba(34,211,238,0.5)];
+}
+
+.glow-purple {
+  @apply absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none;
+}
+
+.glow-cyan {
+  @apply absolute bottom-[-100px] right-[-100px] w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none;
+}
+
+@layer utilities {
+  .animate-shimmer {
+    animation: shimmer 3s infinite linear;
+  }
+  
+  .animate-spin-slow {
+    animation: spin 6s infinite linear;
+  }
+  
+  .animate-bounce-slow {
+    animation: bounce 3s infinite ease-in-out;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
